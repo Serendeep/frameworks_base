@@ -33,6 +33,7 @@ import android.text.TextUtils;
 import android.text.TextUtils.TruncateAt;
 import android.util.AttributeSet;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
@@ -166,6 +167,10 @@ public class KeyguardSliceView extends LinearLayout implements View.OnClickListe
             return;
         }
 
+        final ContentResolver resolver = mContext.getContentResolver();
+        boolean mClockSelection = Settings.System.getIntForUser(resolver,
+                Settings.System.LOCKSCREEN_CLOCK_SELECTION, 0, UserHandle.USER_CURRENT) == 9;
+
         ListContent lc = new ListContent(getContext(), mSlice);
         mHasHeader = lc.hasHeader();
         List<SliceItem> subItems = new ArrayList<SliceItem>();
@@ -203,6 +208,17 @@ public class KeyguardSliceView extends LinearLayout implements View.OnClickListe
         mRowAvailable = subItemsCount > 0;
         mRow.setVisibility(mRowAvailable  ? ((mShowInfo || mDarkAmount == 1) ?
                                View.VISIBLE : View.GONE) : View.GONE);
+        if (mClockSelection) {
+            mRow.setPaddingRelative((int) mContext.getResources().getDimension(R.dimen.custom_clock_left_padding), 0, 0, 0);
+            mRow.setGravity(Gravity.START);
+        }
+        else {
+            mRow.setPaddingRelative(0, 0, 0, 0);
+            mRow.setGravity(Gravity.CENTER);
+        }
+        mRow.setVisibility(subItemsCount > 0 ? ((mShowInfo || mDarkAmount == 1) ? VISIBLE : GONE)
+                : GONE);
+        mRowAvailable = subItemsCount > 0;
         for (int i = startIndex; i < subItemsCount; i++) {
             SliceItem item = subItems.get(i);
             RowContent rc = new RowContent(getContext(), item, true /* showStartItem */);
