@@ -158,6 +158,20 @@ public class RingtonePlayer extends SystemUI {
                 client.mRingtone.setLooping(looping);
             }
             // else no client for token when setting playback properties but will be set at play()
+
+        }
+
+        @Override
+        public void setVolume(IBinder token, float volume) {
+            if (LOGD) Log.d(TAG, "setVolume(token=" + token + ", volume=" + volume + ")");
+            Client client;
+            synchronized (mClients) {
+                client = mClients.get(token);
+            }
+            if (client != null) {
+                client.mRingtone.setVolume(volume);
+            }
+
         }
 
         @Override
