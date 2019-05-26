@@ -5029,10 +5029,10 @@ public final class Settings {
             NOTIFICATION_LIGHT_PULSE,
             INCREASING_RING,
             INCREASING_RING_START_VOLUME,
-            INCREASING_RING_RAMP_UP_TIME
+            INCREASING_RING_RAMP_UP_TIME,
             VIBRATE_ON_CONNECT,
             VIBRATE_ON_DISCONNECT,
-            VIBRATE_ON_CALLWAITING
+            VIBRATE_ON_CALLWAITING,
 
         };
 
